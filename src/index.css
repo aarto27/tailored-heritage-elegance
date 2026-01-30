@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium Cloth Shop Design System
+   Color Palette: Charcoal, Cream, Gold accents
+   Typography: Playfair Display (serif) + Inter (sans-serif)
+   Style: Luxury tailoring, minimalist elegance
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+@layer base {
+  :root {
+    /* Warm cream background */
+    --background: 40 30% 97%;
+    --foreground: 0 0% 12%;
+
+    /* Cream cards */
+    --card: 40 25% 95%;
+    --card-foreground: 0 0% 12%;
+
+    --popover: 40 30% 97%;
+    --popover-foreground: 0 0% 12%;
+
+    /* Deep charcoal primary */
+    --primary: 0 0% 12%;
+    --primary-foreground: 40 30% 97%;
+
+    /* Warm beige secondary */
+    --secondary: 35 25% 90%;
+    --secondary-foreground: 0 0% 12%;
+
+    /* Muted cream */
+    --muted: 35 20% 92%;
+    --muted-foreground: 0 0% 40%;
+
+    /* Gold accent */
+    --accent: 42 60% 58%;
+    --accent-foreground: 0 0% 12%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 42 60% 58%;
+
+    --radius: 0.25rem;
+
+    /* Custom luxury colors */
+    --gold: 42 60% 58%;
+    --gold-light: 42 50% 75%;
+    --charcoal: 0 0% 12%;
+    --charcoal-light: 0 0% 25%;
+    --cream: 40 30% 97%;
+    --cream-dark: 35 25% 90%;
+    --warm-gray: 30 10% 60%;
+
+    /* Sidebar (keeping for shadcn compatibility) */
+    --sidebar-background: 0 0% 12%;
+    --sidebar-foreground: 40 30% 97%;
+    --sidebar-primary: 42 60% 58%;
+    --sidebar-primary-foreground: 0 0% 12%;
+    --sidebar-accent: 0 0% 20%;
+    --sidebar-accent-foreground: 40 30% 97%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 42 60% 58%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 40 25% 95%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 40 25% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 25% 95%;
+
+    --primary: 40 25% 95%;
+    --primary-foreground: 0 0% 12%;
+
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 40 25% 95%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 40 15% 65%;
+
+    --accent: 42 60% 58%;
+    --accent-foreground: 0 0% 12%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 40 25% 95%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 42 60% 58%;
+
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 40 25% 95%;
+    --sidebar-primary: 42 60% 58%;
+    --sidebar-primary-foreground: 0 0% 12%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 40 25% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 42 60% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+}
+
+@layer components {
+  /* Hero gradient overlay */
+  .hero-overlay {
+    background: linear-gradient(
+      to right,
+      hsl(0 0% 0% / 0.7) 0%,
+      hsl(0 0% 0% / 0.4) 50%,
+      hsl(0 0% 0% / 0.2) 100%
+    );
+  }
+
+  /* Gold text gradient */
+  .text-gold-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(42 60% 58%) 0%,
+      hsl(42 50% 75%) 50%,
+      hsl(42 60% 58%) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Elegant divider */
+  .divider-gold {
+    @apply h-px w-16 bg-accent mx-auto;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-500 ease-out;
+  }
+  
+  .card-hover:hover {
+    @apply -translate-y-2 shadow-2xl;
+  }
+
+  /* Image zoom on hover */
+  .img-zoom {
+    @apply overflow-hidden;
+  }
+  
+  .img-zoom img {
+    @apply transition-transform duration-700 ease-out;
+  }
+  
+  .img-zoom:hover img {
+    @apply scale-110;
+  }
+
+  /* Underline animation for links */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-px bg-accent origin-left scale-x-0 transition-transform duration-300 ease-out;
+  }
+  
+  .link-underline:hover::after {
+    @apply scale-x-100;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  /* Container max width */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-3 {
+    animation: fadeIn 0.8s ease-out 0.6s forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Stagger children animation */
+  .stagger-children > * {
+    @apply animate-fade-in-up;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+}
