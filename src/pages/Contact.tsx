@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import emailjs from "emailjs-com";
+
 import {
   Select,
   SelectContent,
@@ -61,7 +63,7 @@ export default function Contact() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
+   
     if (errors[name as keyof ContactFormData]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -75,35 +77,50 @@ export default function Contact() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setErrors({});
+  e.preventDefault();
+  setIsSubmitting(true);
+  setErrors({});
 
-    try {
-      const validatedData = contactSchema.parse(formData);
-      
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      setIsSubmitted(true);
-      toast({
-        title: "Inquiry Received",
-        description: "Thank you! We'll contact you within 24 hours to schedule your consultation.",
+  try {
+    const validatedData = contactSchema.parse(formData);
+
+    await emailjs.send(
+      "YOUR_SERVICE_ID",
+      "YOUR_TEMPLATE_ID",
+      {
+        fullName: validatedData.fullName,
+        phone: validatedData.phone,
+        email: validatedData.email,
+        gender: validatedData.gender,
+        suitType: validatedData.suitType,
+        message: validatedData.message || "No message",
+      },
+      "YOUR_PUBLIC_KEY"
+    );
+
+    setIsSubmitted(true);
+    toast({
+      title: "Inquiry Sent",
+      description: "Your message has been sent successfully. We'll contact you soon.",
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const fieldErrors: any = {};
+      error.errors.forEach((err) => {
+        fieldErrors[err.path[0] as keyof ContactFormData] = err.message;
       });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            fieldErrors[err.path[0] as keyof ContactFormData] = err.message;
-          }
-        });
-        setErrors(fieldErrors);
-      }
-    } finally {
-      setIsSubmitting(false);
+      setErrors(fieldErrors);
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
     }
-  };
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <main>
